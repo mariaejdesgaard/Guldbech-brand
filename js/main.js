@@ -1,8 +1,8 @@
 "use strict";
 
 // Global variable
-let _movies = [];
-let _favMovies = [];
+let _brands = [];
+let _favBrands = [];
 
 initApp();
 
@@ -10,95 +10,95 @@ initApp();
  * Initializing the app by loading and appending to the DOM
  */
 async function initApp() {
-  _movies = await loadMovies(); // execute the function to load the movies into _movies
-  appendMovies(_movies);
+  _brands = await loadBrands(); // execute the function to load the brands into _brands
+  appendBrands(_brands);
 }
 
 /**
- * Fetch movie from data source: JSON file
+ * Fetch brand from data source: JSON file
  */
-async function loadMovies() {
-  let response = await fetch("./json/movies.json");
+async function loadBrands() {
+  let response = await fetch("./json/brands.json");
   let data = await response.json();
   return data;
 }
 
 /**
- * Appending movies to the DOM by the giving argument
+ * Appending brands to the DOM by the giving argument
  */
-function appendMovies(movies) {
+function appendBrands(brands) {
   let html = "";
-  for (const movie of movies) {
-    console.log(movie);
+  for (const brand of brands) {
+    console.log(brand);
     html += /*html*/`
       <article>
-        <img src="${movie.img}">
-        ${generateFavMovieButton(movie.id)}
+        <img src="${brand.img}">
+        ${generateFavBrandButton(brand.id)}
       </article>
     `;
   }
-  document.querySelector("#movie-container").innerHTML = html;
+  document.querySelector("#brand-container").innerHTML = html;
 }
 
-/* ---------- Movie Fav Functionality ---------- */
+/* ---------- Brand Fav Functionality ---------- */
 
 /**
- * Appending fav movies to the DOM by looping through _favMovies
+ * Appending fav brands to the DOM by looping through _favBrands
  */
-function appendFavMovies() {
+function appendFavBrands() {
   let html = "";
-  for (const movie of _favMovies) {
-    console.log(movie);
+  for (const brand of _favBrands) {
+    console.log(brand);
     html += /*html*/`
       <article>
-        <img src="${movie.img}">
-        ${generateFavMovieButton(movie.id)}
+        <img src="${brand.img}">
+        ${generateFavBrandButton(brand.id)}
       </article>
     `;
   }
-  // if no movies display a default text
-  if (_favMovies.length === 0) {
-    html = "<p>No movies added to favorites</p>"
+  // if no brands display a default text
+  if (_favBrands.length === 0) {
+    html = "<p>Ingen brands er blevet tilføjet</p>"
   }
-  document.querySelector("#fav-movie-container").innerHTML = html;
+  document.querySelector("#fav-brand-container").innerHTML = html;
 }
 
 /**
  * Generating the fav button
  */
-function generateFavMovieButton(movieId) {
+function generateFavBrandButton(brandId) {
   let btnTemplate = `
-    <button onclick="addToFavourites('${movieId}')">Tilføj brand</button>`;
-  if (isFavMovie(movieId)) {
+    <button onclick="addToFavourites('${brandId}')">Tilføj brand</button>`;
+  if (isFavBrand(brandId)) {
     btnTemplate = `
-      <button onclick="removeFromFavourites('${movieId}')" class="rm">Fjern brand</button>`;
+      <button onclick="removeFromFavourites('${brandId}')" class="rm">Fjern brand</button>`;
   }
   return btnTemplate;
 }
 
 /**
- * Adding movie to favorites by given movieId
+ * Adding brand to favorites by given brandId
  */
-function addToFavourites(movieId) {
-  let favMovie = _movies.find(movie => movie.id === movieId);
-  _favMovies.push(favMovie);
-  appendMovies(_movies); // update the DOM to display the right button
-  appendFavMovies(); // update the DOM to display the right items from the _favMovies list
+function addToFavourites(brandId) {
+  let favBrand = _brands.find(brand => brand.id === brandId);
+  _favBrands.push(favBrand);
+  appendBrands(_brands); // update the DOM to display the right button
+  appendFavBrands(); // update the DOM to display the right items from the _favBrands list
 }
 
 /**
- * Removing movie from favorites by given movieId
+ * Removing brand from favorites by given brandId
  */
-function removeFromFavourites(movieId) {
-  _favMovies = _favMovies.filter(movie => movie.id !== movieId);
-  appendMovies(_movies); // update the DOM to display the right button
-  appendFavMovies(); // update the DOM to display the right items from the _favMovies list
+function removeFromFavourites(brandId) {
+  _favBrands = _favBrands.filter(brand => brand.id !== brandId);
+  appendBrands(_brand); // update the DOM to display the right button
+  appendFavBrands(); // update the DOM to display the right items from the _favBrands list
 }
 
 /**
- * Checking if movie already is added to _favMovies
+ * Checking if brand already is added to _favBrands
  */
-function isFavMovie(movieId) {
-  return _favMovies.find(movie => movie.id === movieId); // checking if _favMovies has the movie with matching id or not
+function isFavBrand(brandId) {
+  return _favBrands.find(brand => brand.id === brandId); // checking if _favBrands has the brand with matching id or not
 }
 
