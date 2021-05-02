@@ -91,7 +91,7 @@ function addToFavourites(brandId) {
  */
 function removeFromFavourites(brandId) {
   _favBrands = _favBrands.filter(brand => brand.id !== brandId);
-  appendBrands(_brand); // update the DOM to display the right button
+  appendBrands(_brands); // update the DOM to display the right button
   appendFavBrands(); // update the DOM to display the right items from the _favBrands list
 }
 
